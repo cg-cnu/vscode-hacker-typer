@@ -1,0 +1,61 @@
+{
+    "name": "vscode-hacker-typer",
+    "displayName": "hacker-typer",
+    "description": "Type like a hollywood hacker!",
+    "version": "0.0.1",
+    "publisher": "cg-cnu",
+    "engines": {
+        "vscode": "^1.17.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "author": {
+        "email": "sreenivas9alapati@gmail.com",
+        "name": "Sreenivas Alapati",
+        "url": "https://twitter.com/cgcnu"
+    },
+    "bugs": {
+        "email": "sreenivas9alapati@gmail.com",
+        "url": "https://github.com/cg-cnu/vscode-hacker-typer/issues"
+    },
+    "icon": "icons/hacker-typer-128.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cg-cnu/vscode-hacker-typer.git"
+    },
+    "readme": "README.md",
+    "license": "MIT",
+    "keywords": [
+        "hacker",
+        "typer",
+        "fun",
+        "typing"
+    ],
+    "homepage": "https://github.com/cg-cnu/vscode-hacker-typer",
+    "activationEvents": [
+        "onCommand:hacker.typer"
+    ],
+    "main": "./out/hacker",
+    "contributes": {
+        "commands": [
+            {
+                "command": "hacker.typer",
+                "title": "Hacker Typer"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.5.3",
+        "vscode": "^1.1.5",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
