@@ -34,7 +34,8 @@
     ],
     "homepage": "https://github.com/cg-cnu/vscode-hacker-typer",
     "activationEvents": [
-        "onCommand:hacker.typeIt"
+        "onCommand:hacker.typeIt",
+        "onCommand:hacker.typeMe"
     ],
     "main": "./out/hacker",
     "contributes": {
@@ -42,6 +43,10 @@
             {
                 "command": "hacker.typeIt",
                 "title": "Hacker Typer: Type it for me"
+            },
+            {
+                "command": "hacker.typeMe",
+                "title": "Hacker Typer: Let me type"
             }
         ]
     },
