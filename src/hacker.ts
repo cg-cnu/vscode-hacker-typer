@@ -26,62 +26,49 @@ export const activate = (context: vscode.ExtensionContext) => {
             .then(() => {
                 vscode.window.onDidChangeTextEditorSelection(
                     () => {
-                        // if(edited == true){
-                        // console.log('test')
-                        var typedTex = vscode.window.activeTextEditor.document.getText()
-                        var replaceText = bufferText.slice(0, typedTex.length)
-                        console.log('replaceText', replaceText)
-                        // vscode.window.activeTextEditor.document.
-                        // select
-                        if (typedTex != replaceText) {
-                            // var edited = false;
-                            const selection = new vscode.Selection(
-                                new vscode.Position(0, 0),
-                                editor.document.lineAt(editor.document.lineCount - 1).range.end
-                            )
-
-                            editor.edit(editBuilder => {
-                                editBuilder.delete(selection)
-                            }).then(
-                                () => {
-                                    editor.edit(editBuilder => {
-                                        editBuilder.insert(
-                                            new vscode.Position(0, 0),
-                                            replaceText
-                                        )
-                                    })
-                                })
-                        }
+                        typing(bufferText)
                     }
-                    // }
                 )
             })
-        // .then(() => {
-        // save the file 
-        // on file dirty
-        // var typedTex: string = ""
-        // console.log('bufferText----- ', bufferText)
-        // console.log('typeText ------', typedTex)
-        // console.log('bufferText !== typedTex', bufferText !== typedTex)
-        // // vscode.window.activeTextEditor.            
-        // while (bufferText !== typedTex) {
-        //     // console.log(bufferText)
-        //     // setTimeout(function () {
-        //     var replaceText = bufferText.slice(0, typedTex.length)
-
-        //     typedTex = vscode.window.activeTextEditor.document.getText()
-        //     console.log('typedTex----??', typedTex)
-        //     // }, 100);
-        // console.log('test')
-        // }
-        // })
-        // get the remove the current position 
-        // insert the text from the buffer 
-        // select all the text
-
-
     })
     context.subscriptions.push(typeMe);
+
+    const typing = (bufferText) => {
+        // HACK: implementation noticed by admin @ 2017-10-19 02:11:18
+        // tmp hack implementation 
+        const editor = vscode.window.activeTextEditor;
+        const doc = editor.document;
+        // get typed and replace
+        var typedTex = vscode.window.activeTextEditor.document.getText()
+        var replaceText = bufferText.slice(0, typedTex.length)
+
+        // FIXME: noticed by admin @ 2017-10-19 02:12:13
+        // the text starts arbitly closign and replacing. Need to debug
+
+        // if typed the right key
+        if (typedTex == replaceText) {
+            return
+        }
+
+        // get the arbitary world
+        const selection = new vscode.Selection(
+            new vscode.Position(0, 0),
+            editor.document.lineAt(editor.document.lineCount - 1).range.end
+        )
+        editor.edit(editBuilder => {
+            editBuilder.delete(selection)
+        }).then(
+            () => {
+                editor.edit(editBuilder => {
+                    editBuilder.insert(
+                        new vscode.Position(0, 0),
+                        replaceText
+                    )
+                })
+            })
+
+
+    }
 
     const typeIt = vscode.commands.registerCommand('hacker.typeIt', () => {
         const editor: vscode.TextEditor = vscode.window.activeTextEditor;
