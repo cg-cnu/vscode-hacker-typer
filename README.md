@@ -6,9 +6,18 @@
   <br>
 </p>
 
- ## Demo:
+<h1 align="center">⚠️Warning⚠️</h1>
+<h4 align="center">Don't run this addon on your original files.
+Please take a backup.</h4>
+
+## Demo:
 
 <img src=""></img>
+
+## Features:
+
+* Type it for me: Let vscode retype the entire file
+
 
 ## Inspiration:
 
