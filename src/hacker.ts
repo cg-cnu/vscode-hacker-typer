@@ -1,6 +1,53 @@
 "use strict";
 import * as vscode from "vscode";
 
+// IDEA: logged by salapati @ 2017-10-17 11:44:27
+// randomize the speed a little
+
+// IDEA: logged by salapati @ 2017-10-17 11:42:08
+// provide random delays once in a while
+
+// FIXME: noticed by salapati @ 2017-10-17 11:01:22
+// should be able to cancel with esc or some other key
+
+// FIXME: noticed by salapati @ 2017-10-17 13:46:48
+// should get the whole data back on enter
+
+// this can't be done because the main robotype is runnig on setinternval and
+// each character is set with incremental interval ? Ah...!
+const getSpeed = () => {
+  return Math.floor(Math.random() * 100) + 80;
+};
+
+const startDelay = (): number => Math.floor(Math.random() * 8000) + 1000;
+const typeSpeed: number = 100;
+
+const getCode = () => {
+  const code: string = "cons tstatrDa:ylb 40;enm u 0=0";
+  return code;
+};
+
+const roboType = (editor: vscode.TextEditor, text: string) => {
+  for (let i = 0; i <= text.length; i++) {
+    setTimeout(() => {
+      editor.edit((editBuilder) => {
+        // move the cursor to the end of the file to type
+        let fileEnd = editor.document.lineAt(editor.document.lineCount - 1)
+          .range.end;
+        let selection = new vscode.Selection(fileEnd, fileEnd);
+        vscode.window.activeTextEditor.selection = selection;
+        editor.revealRange; // scroll the view // not working
+
+        editBuilder.insert(editor.selection.start, text[i]);
+      });
+    }, i * typeSpeed);
+  }
+};
+(err) => {
+  console.log(err);
+  return;
+};
+
 export const activate = (context: vscode.ExtensionContext) => {
   const typeMe = vscode.commands.registerCommand("hacker.typeMe", () => {
     var editor: vscode.TextEditor = vscode.window.activeTextEditor;
@@ -65,60 +112,31 @@ export const activate = (context: vscode.ExtensionContext) => {
   };
 
   const typeIt = vscode.commands.registerCommand("hacker.typeIt", () => {
-    const editor: vscode.TextEditor = vscode.window.activeTextEditor;
+    const win = vscode.window;
+    const editor: vscode.TextEditor = win.activeTextEditor;
+    const doc: vscode.TextDocument = editor.document;
+
     if (!editor) {
-      vscode.window.showErrorMessage("No file open.");
+      win.showErrorMessage("No file open.");
       return;
     }
-    // IDEA: logged by salapati @ 2017-10-17 11:41:37
-    // provide delay before starting the typing
-
-    // get the text
-    const text: string = editor.document.getText();
-    // IDEA: logged by salapati @ 2017-10-17 11:38:59
-    // if no text is present should look for file with .hackertyper
-
-    // select all the text
-    const selection = new vscode.Selection(
-      new vscode.Position(0, 0),
-      editor.document.lineAt(editor.document.lineCount - 1).range.end
-    );
-    // remove selection
+    let text: string = doc.getText();
+    if (text === "") {
+      text = getCode();
+    }
     editor
       .edit((editBuilder) => {
+        const selection = new vscode.Selection(
+          new vscode.Position(0, 0),
+          doc.lineAt(doc.lineCount - 1).range.end
+        );
         editBuilder.delete(selection);
       })
-      .then(
-        () => {
-          // write the text
-          for (let i = 0; i <= text.length; i++) {
-            setTimeout(() => {
-              editor.edit((editBuilder) => {
-                editBuilder.insert(editor.selection.start, text[i]);
-              });
-            }, i * 100);
-          }
-        },
-        (err) => {
-          console.log(err);
-          return;
-        }
-      );
-
-    // TODO: created by salapati @ 2017-10-17 11:44:00
-    // Move code to config file
-
-    // IDEA: logged by salapati @ 2017-10-17 11:44:27
-    // randomize the speed a little
-
-    // IDEA: logged by salapati @ 2017-10-17 11:42:08
-    // provide random delays once in a while
-
-    // FIXME: noticed by salapati @ 2017-10-17 11:01:22
-    // should be able to cancel with esc or some other key
-
-    // FIXME: noticed by salapati @ 2017-10-17 13:46:48
-    // should get the whole data back on esc
+      .then(() => {
+        setTimeout(() => {
+          roboType(editor, text);
+        }, startDelay());
+      });
   });
 
   context.subscriptions.push(typeIt);
