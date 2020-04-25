@@ -22,7 +22,8 @@ const getSpeed = () => {
 const startDelay = (): number => Math.floor(Math.random() * 8000) + 1000;
 const typeSpeed: number = 100;
 
-const getCode = () => {
+const getCode = (language: string): string => {
+  // search github for the code
   const code: string = "cons tstatrDa:ylb 40;enm u 0=0";
   return code;
 };
@@ -122,7 +123,7 @@ export const activate = (context: vscode.ExtensionContext) => {
     }
     let text: string = doc.getText();
     if (text === "") {
-      text = getCode();
+      text = getCode(doc.languageId);
     }
     editor
       .edit((editBuilder) => {
