@@ -9,6 +9,11 @@
 <h4 align="center">Don't run this addon on your original files.
 Please take a backup.</h4>
 
+One of the fun/useless things I made. Are you looking for similar addon
+with some useful features ? Checkout
+[VSCode HackerTyper](https://marketplace.visualstudio.com/items?itemName=jevakallio.vscode-hacker-typer)
+by [jevakallio](https://marketplace.visualstudio.com/publishers/jevakallio)
+
 ## Demo
 
 <img src=""></img>
